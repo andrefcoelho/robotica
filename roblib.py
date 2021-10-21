@@ -16,9 +16,9 @@ def rot_z(angle):
 def cross_matrix(v):	
 	return np.array(((0, -v[2], v[1]),(v[2], 0, -v[0]), (-v[1], v[0], 0)))
 
-def flow(x,u,dT):
-	x+=u*dT
-	return x
-
-
-
+def integrator(u,y0,dT):
+  y=np.zeros_like(u)
+  y[0]=y0
+  for i in range(len(y)-1):
+    y[i+1]=y[i]+u[i]*dT
+  return y
