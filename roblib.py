@@ -22,3 +22,6 @@ def integrator(u,y0,dT):
   for i in range(len(y)-1):
     y[i+1]=y[i]+u[i]*dT
   return y
+
+def flow(u,y0,dT):
+	return y0+u*dT
