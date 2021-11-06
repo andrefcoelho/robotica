@@ -37,7 +37,7 @@ def rectangularShape(center,width,height,angle):
   points = [leftBottom,rightBottom,rightTop,leftTop]
   return points
 
-  def exp_so3(phi):
+def exp_so3(phi):
   normPhi=np.linalg.norm(phi)
   if normPhi<1e-15:
     return np.identity(3)
