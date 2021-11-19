@@ -44,6 +44,22 @@ def exp_so3(phi):
   else:
     phi_hat=skew(phi)
     return np.identity(3)+np.sin(normPhi)*phi_hat/normPhi+(1-np.cos(normPhi))*phi_hat.dot(phi_hat)/(normPhi*normPhi)
+
+def log_so3(R):
+  Tr=np.trace(R)-1
+  if abs(Tr)>2:
+    Tr=2*Tr/abs(Tr)
+  if abs(Tr-3)<1e-10:
+    return np.zeros_like(R)
+  else:
+    phi=np.arccos(0.5*Tr);
+    if np.any(np.isnan(phi)) or np.linalg.norm(phi)<1e-10:
+      return np.zeros_like(R)
+    else:
+      L_hat=phi/(2*np.sin(phi))*(R-R.T)
+      return 0.5*(L_hat-L_hat.T)
+
+
 def A(phi):
   normPhi=np.linalg.norm(phi)
   if normPhi<1e-15:
@@ -61,6 +77,7 @@ def exp_se3(phi,q):
     R=exp_so3(phi)
     p=A(phi).dot(q)
   return SE3(R,p)
+
 
 class SE3:
   """Classe de matrizes em SE(3)"""
