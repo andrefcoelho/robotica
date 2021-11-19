@@ -50,18 +50,18 @@ def log_so3(R):
   if abs(Tr)>2:
     Tr=2*Tr/abs(Tr)
   if abs(Tr-3)<1e-10:
-    return np.zeros_like(R)
+    return np.zeros(3)
   else:
     phi=np.arccos(0.5*Tr);
     if np.any(np.isnan(phi)) or np.linalg.norm(phi)<1e-10:
-      return np.zeros_like(R)
+      return np.zeros(3)
     else:
       L_hat=phi/(2*np.sin(phi))*(R-R.T)
-      return 0.5*(L_hat-L_hat.T)
+      return vee(0.5*(L_hat-L_hat.T))
 
 def vee(M):
 	return [M[2,1],M[0,2],M[1,0]]
-	
+
 def A(phi):
   normPhi=np.linalg.norm(phi)
   if normPhi<1e-15:
