@@ -74,7 +74,7 @@ def exp_se3(phi,q):
   normPhi=np.linalg.norm(phi)
   if normPhi<1e-15:
     R=np.identity(3)
-    p=[0,0,0]
+    p=q
   else:
     R=exp_so3(phi)
     p=A(phi).dot(q)
