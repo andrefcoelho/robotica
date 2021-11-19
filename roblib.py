@@ -44,3 +44,20 @@ def exp_so3(phi):
   else:
     phi_hat=skew(phi)
     return np.identity(3)+np.sin(normPhi)*phi_hat/normPhi+(1-np.cos(normPhi))*phi_hat.dot(phi_hat)/(normPhi*normPhi)
+def A(phi):
+  normPhi=np.linalg.norm(phi)
+  if normPhi<1e-15:
+    return np.identity(3)
+  else:
+    phi_hat=skew(phi)
+    return np.identity(3)+(1-np.cos(normPhi))/normPhi*phi_hat/normPhi + (1-np.cos(normPhi)/normPhi)*phi_hat*phi_hat/normPhi/normPhi
+
+def exp_se3(phi,q):
+  normPhi=np.linalg.norm(phi)
+  if normPhi<1e-15:
+    R=np.identity(3)
+    p=[0,0,0]
+  else:
+    R=exp_so3(phi)
+    p=A(phi).dot(q)
+  return SE3(R,p)
