@@ -50,7 +50,7 @@ def A(phi):
     return np.identity(3)
   else:
     phi_hat=skew(phi)
-    return np.identity(3)+(1-np.cos(normPhi))/normPhi*phi_hat/normPhi + (1-np.cos(normPhi)/normPhi)*phi_hat*phi_hat/normPhi/normPhi
+    return np.identity(3)+(1-np.cos(normPhi))/normPhi*phi_hat/normPhi + (1-np.cos(normPhi)/normPhi)*phi_hat.dot(phi_hat)/normPhi/normPhi
 
 def exp_se3(phi,q):
   normPhi=np.linalg.norm(phi)
@@ -61,3 +61,13 @@ def exp_se3(phi,q):
     R=exp_so3(phi)
     p=A(phi).dot(q)
   return SE3(R,p)
+
+class SE3:
+  """Classe de matrizes em SE(3)"""
+  def __init__(self, R, p):   #initiliza H dados R e p
+    self.R=R               
+    self.p=p
+    self.value=np.concatenate((np.concatenate((R, [[p[0]],[p[1]],[p[2]]]), axis=1), [[0,0,0,1]]), axis=0)  #forma matricial de H 
+    
+  def dot(self,v):             #multiplicacao de um vetor v em R^3 por H
+   return self.R.dot(v)+p  
