@@ -59,7 +59,9 @@ def log_so3(R):
       L_hat=phi/(2*np.sin(phi))*(R-R.T)
       return 0.5*(L_hat-L_hat.T)
 
-
+def vee(M):
+	return [M[2,1],M[0,2],M[1,0]]
+	
 def A(phi):
   normPhi=np.linalg.norm(phi)
   if normPhi<1e-15:
