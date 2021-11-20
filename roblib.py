@@ -65,7 +65,7 @@ def vee(V):
 def A(phi):
 	normPhi=np.linalg.norm(phi)
 	if normPhi<1e-15:
-    return np.identity(3)
+		return np.identity(3)
   else:
   	phi_hat=rl.skew(phi)
   	return np.identity(3)+(1-np.cos(normPhi))/normPhi*phi_hat/normPhi + (1-np.sin(normPhi)/normPhi)*phi_hat.dot(phi_hat)/normPhi/normPhi
