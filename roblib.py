@@ -62,14 +62,13 @@ def log_so3(R):
 def vee(V):
 	return [V[2,1],V[0,2],V[1,0]]
 
-
 def A(phi):
-  normPhi=np.linalg.norm(phi)
-  if normPhi<1e-15:
+	normPhi=np.linalg.norm(phi)
+	if normPhi<1e-15:
     return np.identity(3)
   else:
-    phi_hat=rl.skew(phi)
-    return np.identity(3)+(1-np.cos(normPhi))/normPhi*phi_hat/normPhi + (1-np.sin(normPhi)/normPhi)*phi_hat.dot(phi_hat)/normPhi/normPhi
+  	phi_hat=rl.skew(phi)
+  	return np.identity(3)+(1-np.cos(normPhi))/normPhi*phi_hat/normPhi + (1-np.sin(normPhi)/normPhi)*phi_hat.dot(phi_hat)/normPhi/normPhi
 
 def exp_se3(phi,q):
   R=exp_so3(phi)
