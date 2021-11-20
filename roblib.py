@@ -74,6 +74,14 @@ def exp_se3(phi,q):
   R=exp_so3(phi)
   p=A(phi).dot(q)
   return SE3(R,p)
+  
+def se3_integrator_body(Vb,H0,dT):
+  H=[]
+  H.append(H0)
+  for i in range(np.size(Vb,1)-1):
+    H_=H[i].value.dot(exp_se3(Vb[3:6,i]*dT,Vb[0:3,i]*dT).value)
+    H.append(SE3(H_[0:3,0:3],H_[0:3,3]))
+  return H
 
 
 
@@ -86,3 +94,5 @@ class SE3:
     
   def dot(self,v):             #multiplicacao de um vetor v em R^3 por H
    return self.R.dot(v)+p  
+
+
