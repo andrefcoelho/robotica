@@ -46,18 +46,21 @@ def exp_so3(phi):
     return np.identity(3)+np.sin(normPhi)*phi_hat/normPhi+(1-np.cos(normPhi))*phi_hat.dot(phi_hat)/(normPhi*normPhi)
 
 def log_so3(R):
-  Tr=np.trace(R)-1
-  if abs(Tr)>2:
-    Tr=2*Tr/abs(Tr)
+  Tr=np.trace(R)
   if abs(Tr-3)<1e-10:
     return np.zeros(3)
   else:
-    phi=np.arccos(0.5*Tr);
-    if np.any(np.isnan(phi)) or np.linalg.norm(phi)<1e-10:
+    phi=np.arccos(0.5*(Tr-1))
+    if np.linalg.norm(phi)<1e-10:
       return np.zeros(3)
     else:
       L_hat=phi/(2*np.sin(phi))*(R-R.T)
       return vee(0.5*(L_hat-L_hat.T))
+
+def log_se3(H):
+  phi=log_so3(H.R)
+  q=A_inv(phi).dot(H.p)
+  return phi,q
 
 def vee(V):
 	return [V[2,1],V[0,2],V[1,0]]
