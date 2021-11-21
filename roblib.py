@@ -50,13 +50,13 @@ def log_so3(R):
   if abs(Tr-3)<1e-10:
     return np.zeros(3)
   else:
-    phi=np.arccos(0.5*(Tr-1))
-    if np.linalg.norm(phi)<1e-10:
+    psi=np.arccos(0.5*(Tr-1))
+    if np.linalg.norm(psi)<1e-10:
       return np.zeros(3)
     else:
-      L_hat=phi/(2*np.sin(phi))*(R-R.T)
+      L_hat=psi/(2*np.sin(psi))*(R-R.T)
       return vee(0.5*(L_hat-L_hat.T))
-
+      
 def log_se3(H):
   phi=log_so3(H.R)
   q=A_inv(phi).dot(H.p)
