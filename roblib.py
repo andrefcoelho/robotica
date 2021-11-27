@@ -70,8 +70,17 @@ def A(phi):
 	if normPhi<1e-15:
 		return np.identity(3)
 	else:
-		phi_hat=rl.skew(phi)
+		phi_hat=skew(phi)
 		return np.identity(3)+(1-np.cos(normPhi))/normPhi*phi_hat/normPhi + (1-np.sin(normPhi)/normPhi)*phi_hat.dot(phi_hat)/normPhi/normPhi
+def A_inv(phi):
+  normPhi=np.linalg.norm(phi)
+  if normPhi<1e-15:
+    return np.identity(3)
+  else:
+    phi_hat=skew(phi)
+    alpha=0.5*normPhi/np.tan(0.5*normPhi)
+    return np.identity(3)-0.5*phi_hat + (1-alpha)*phi_hat.dot(phi_hat)/normPhi/normPhi
+
 
 def exp_se3(phi,q):
   R=exp_so3(phi)
@@ -99,3 +108,7 @@ class SE3:
    return self.R.dot(v)+p  
 
 
+def Adjoint(H):
+  return np.block([[H.R, skew(H.p).dot(H.R)],[np.zeros([3,3]), H.R]])
+def Adjoint_inv(H):
+  return np.block([[H.R.T, -skew(H.R.T.dot(H.p)).dot(H.R.T)],[np.zeros([3,3]), H.R.T]])  
