@@ -94,6 +94,13 @@ def se3_integrator_body(Vb,H0,dT):
     H_=H[i].value.dot(exp_se3(Vb[3:6,i]*dT,Vb[0:3,i]*dT).value)
     H.append(SE3(H_[0:3,0:3],H_[0:3,3]))
   return H
+def se3_integrator_spatial(Vs,H0,dT):
+  H=[]
+  H.append(H0)
+  for i in range(np.size(Vs,1)-1):
+    H_=exp_se3(Vs[3:6,i]*dT,Vs[0:3,i]*dT).value.dot(H[i].value)
+    H.append(SE3(H_[0:3,0:3],H_[0:3,3]))
+  return H
 
 
 
