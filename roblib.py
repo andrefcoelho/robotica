@@ -39,7 +39,7 @@ def rectangularShape(center,width,height,angle):
 
 def exp_so3(phi):
   normPhi=np.linalg.norm(phi)
-  if normPhi<1e-15:
+  if normPhi<1e-10:
     return np.identity(3)
   else:
     phi_hat=skew(phi)
