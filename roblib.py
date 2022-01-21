@@ -119,3 +119,13 @@ def Adjoint(H):
   return np.block([[H.R, skew(H.p).dot(H.R)],[np.zeros([3,3]), H.R]])
 def Adjoint_inv(H):
   return np.block([[H.R.T, -skew(H.R.T.dot(H.p)).dot(H.R.T)],[np.zeros([3,3]), H.R.T]])  
+
+
+def uav_dynamics(m,Jcc,G,u,Rsb,wsb):
+  F=G.dot(u)  # transforma velocidade dos rotores para forca no referencial do corpo
+  F_c=Rsb.dot(F[0:3]) # transforma forca para referencial do inercial
+  tau_c=F[3:6]
+  g=9.81
+  v_dot=1/m*(-m*g*np.array([0,0,1])+F_c)
+  w_dot=np.linalg.inv(Jcc).dot(-rl.skew(wsb).dot(Jcc.dot(wsb))+tau_c)
+  return v_dot,w_dot
