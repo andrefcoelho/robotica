@@ -129,3 +129,10 @@ def uav_dynamics(m,Jcc,G,u,Rsb,wsb):
   v_dot=1/m*(-m*g*np.array([0,0,1])+F_c)
   w_dot=np.linalg.inv(Jcc).dot(-rl.skew(wsb).dot(Jcc.dot(wsb))+tau_c)
   return v_dot,w_dot
+
+
+def rigid_body_dynamics(m,Jcc,F_c,tau_c,wsb):
+  g=9.81
+  v_dot=1/m*(-m*g*np.array([0,0,1])+F_c)
+  w_dot=np.linalg.inv(Jcc).dot(-rl.skew(wsb).dot(Jcc.dot(wsb))+tau_c)
+  return v_dot,w_dot
